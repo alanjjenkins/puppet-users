@@ -6,8 +6,8 @@ define users(
 	include stdlib
 
 	case $match {
-	  'all','any': { $_match = 'all' }
-	  'first':     { $_match = 'first' }
+		'all','any': { $_match = 'all' }
+		'first':     { $_match = 'first' }
 	}
 
 	if $hash {
@@ -17,18 +17,18 @@ define users(
 		# traverse the hierarchy and get all matches, 'first' will
 		# only
 		case $_match {
-		  'all': {
-			$_hash = hiera_hash("users_${name}", undef)
-		  }
-		  'first': {
-			$_hash = hiera("users_${name}", undef)
-		  }
+			'all': {
+				$_hash = hiera_hash("users_${name}", undef)
+			}
+			'first': {
+				$_hash = hiera("users_${name}", undef)
+			}
 		}
 	}
-	
+
 	if $_hash {
 		$users = keys($_hash)
-		users::setup { 
+		users::setup {
 			$users:
 				hash       => $_hash;
 		}

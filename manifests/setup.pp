@@ -45,4 +45,19 @@ define users::setup($hash) {
                         }
                 }
         }
+        if($hash[$name]['dotfiles_repo']) {
+                if($hash[$name]['home']) {
+                        $dotfiles_path = "$hash[$name]['home']/.dotfiles"
+                } else {
+                        $dotfiles_path = "/home/${name}/.dotfiles"
+                }
+
+                vcsrepo {$dotfiles_path:
+                        ensure   => latest,
+                        provider => git,
+                        source   => $hash[$name]['dotfiles_repo'],
+                        user     => $name,
+                        requires => User[$name]
+                }
+        }
 }
